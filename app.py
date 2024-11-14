@@ -5,8 +5,8 @@ import json
 import os
 
 # Load the trained model
-model_path = os.path.join("random_forest_model.joblib")
-random_forest_model = load(model_path)
+#model_path = os.path.join("random_forest_model.joblib")
+
 
 # Load mean and std for reversing standardization
 with open("price_stats.json", "r") as f:
@@ -126,7 +126,7 @@ input_data = {
 }
 
 # Prediction function using Random Forest model and reversing standardization
-def predict_price(input_data):
+def predict_price(input_data, model):
     # Convert input_data into a format suitable for the model (e.g., a list or DataFrame)
     input_features = [
         input_data["subproperty_type_encoded"],
@@ -157,9 +157,10 @@ if st.button("Predict"):
     try:
         # Display the input data
         st.write("Input data:", input_data)
-        
+        random_forest_model = load('random_forest_model.joblib')
+        st.write(random_forest_model)
         # Make the prediction using the model
-        prediction = predict_price(input_data)
+        prediction = predict_price(input_data,random_forest_model)
         st.success(f"Predicted Property Price: €{prediction:,.2f}")
     except Exception as e:
         st.error(f"Error: {str(e)}")
